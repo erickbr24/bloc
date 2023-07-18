@@ -28,11 +28,19 @@ class Todo extends Equatable {
     required this.title,
     this.description = '',
     this.isCompleted = false,
+    this.userIds = const [],
+    this.areaIds = const [],
+    // ignore: avoid_unused_constructor_parameters
+    final DateTime? dateCreated,
+    final DateTime? deadlineDate,
   })  : assert(
           id == null || id.isNotEmpty,
           'id can not be null and should be empty',
         ),
-        id = id ?? const Uuid().v4();
+        id = id ?? const Uuid().v4(),
+        dateCreated = dateCreated ?? DateTime.now(),
+        deadlineDate =
+            deadlineDate ?? DateTime.now().add(const Duration(days: 1));
 
   /// The unique identifier of the `todo`.
   ///
@@ -54,6 +62,27 @@ class Todo extends Equatable {
   /// Defaults to `false`.
   final bool isCompleted;
 
+  /// The ids of the users associated with this `todo`.
+  ///
+  /// Defaults to an empty list.
+  final List<String> userIds;
+
+  /// The ids of the areas associated with this `todo`.
+  ///
+  ///
+  /// Defaults to an empty list.
+  final List<String> areaIds;
+
+  ///   The date the `todo` was created.
+  ///
+  ///  Defaults to the current date.
+  final DateTime dateCreated;
+
+  /// The date the `todo` is due.
+  ///
+  /// Defaults to the current date plus one day.
+  final DateTime deadlineDate;
+
   /// Returns a copy of this `todo` with the given values updated.
   ///
   /// {@macro todo_item}
@@ -62,12 +91,20 @@ class Todo extends Equatable {
     String? title,
     String? description,
     bool? isCompleted,
+    List<String>? userIds,
+    List<String>? areaIds,
+    DateTime? dateCreated,
+    DateTime? deadlineDate,
   }) {
     return Todo(
       id: id ?? this.id,
       title: title ?? this.title,
       description: description ?? this.description,
       isCompleted: isCompleted ?? this.isCompleted,
+      userIds: userIds ?? this.userIds,
+      areaIds: areaIds ?? this.areaIds,
+      dateCreated: dateCreated ?? this.dateCreated,
+      deadlineDate: deadlineDate ?? this.deadlineDate,
     );
   }
 
@@ -78,5 +115,14 @@ class Todo extends Equatable {
   JsonMap toJson() => _$TodoToJson(this);
 
   @override
-  List<Object> get props => [id, title, description, isCompleted];
+  List<Object> get props => [
+        id,
+        title,
+        description,
+        isCompleted,
+        userIds,
+        areaIds,
+        dateCreated,
+        deadlineDate
+      ];
 }
