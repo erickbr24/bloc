@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_todos/edit_todo/edit_todo.dart';
 import 'package:flutter_todos/l10n/l10n.dart';
 import 'package:todos_repository/todos_repository.dart';
+import 'package:edit_todo/widgets/date_pickers.dart';
 
 class EditTodoPage extends StatelessWidget {
   const EditTodoPage({super.key});
@@ -77,7 +78,11 @@ class EditTodoView extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
-              children: const [_TitleField(), _DescriptionField()],
+              children: const [
+                _TitleField(),
+                _DescriptionField(),
+                _DeadlineDateField()
+              ],
             ),
           ),
         ),

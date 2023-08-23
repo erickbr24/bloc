@@ -31,8 +31,8 @@ class Todo extends Equatable {
     this.userIds = const [],
     this.areaIds = const [],
     // ignore: avoid_unused_constructor_parameters
-    final DateTime? dateCreated,
-    final DateTime? deadlineDate,
+    DateTime? dateCreated,
+    DateTime? deadlineDate,
   })  : assert(
           id == null || id.isNotEmpty,
           'id can not be null and should be empty',

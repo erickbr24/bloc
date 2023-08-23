@@ -19,7 +19,7 @@ class TodoListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final captionColor = theme.textTheme.bodySmall?.color;
-
+    final daysLeft = todo.deadlineDate.difference(todo.dateCreated).inDays;
     return Dismissible(
       key: Key('todoListTile_dismissible_${todo.id}'),
       onDismissed: onDismissed,
@@ -35,16 +35,26 @@ class TodoListTile extends StatelessWidget {
       ),
       child: ListTile(
         onTap: onTap,
-        title: Text(
-          todo.title,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: !todo.isCompleted
-              ? null
-              : TextStyle(
-                  color: captionColor,
-                  decoration: TextDecoration.lineThrough,
-                ),
+        title: Row(
+          children: [
+            Text(
+              todo.title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: !todo.isCompleted
+                  ? TextStyle(color: daysLeft <= 2 ? Colors.red : captionColor)
+                  : TextStyle(
+                      color: captionColor,
+                      decoration: TextDecoration.lineThrough,
+                    ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 8),
+              child: Text(
+                '$daysLeft days left',
+              ),
+            ),
+          ],
         ),
         subtitle: Text(
           todo.description,

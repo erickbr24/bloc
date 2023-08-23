@@ -15,6 +15,8 @@ class EditTodoBloc extends Bloc<EditTodoEvent, EditTodoState> {
             initialTodo: initialTodo,
             title: initialTodo?.title ?? '',
             description: initialTodo?.description ?? '',
+            dateCreated: initialTodo?.dateCreated ?? DateTime.now(),
+            deadlineDate: initialTodo?.deadlineDate ?? DateTime.now(),
           ),
         ) {
     on<EditTodoTitleChanged>(_onTitleChanged);
@@ -38,6 +40,13 @@ class EditTodoBloc extends Bloc<EditTodoEvent, EditTodoState> {
     emit(state.copyWith(description: event.description));
   }
 
+  void _onDuedateChanged(
+    EditTodoDeadlineDateChanged event,
+    Emitter<EditTodoState> emit,
+  ) {
+    emit(state.copyWith(deadlineDate: event.deadlineDate));
+  }
+
   Future<void> _onSubmitted(
     EditTodoSubmitted event,
     Emitter<EditTodoState> emit,
@@ -46,6 +55,8 @@ class EditTodoBloc extends Bloc<EditTodoEvent, EditTodoState> {
     final todo = (state.initialTodo ?? Todo(title: '')).copyWith(
       title: state.title,
       description: state.description,
+      dateCreated: state.dateCreated,
+      deadlineDate: state.deadlineDate,
     );
 
     try {
